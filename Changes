@@ -1,5 +1,14 @@
 Revision history for Perl module App::AppSpec
 
+0.007-rc 2022-11-21 14:00:00+11:00
+
+    - App::Spec 0.014-rc
+      - bash shebang to /usr/bin/env bash
+      - IFS now local var to prevent autocompletion affecting IFS env var
+      - Line added between string and line completion for param_name for here string compatibility
+    - Created DockerFile for App-AppSpec
+    - Created GitHub Actions workflow to create container on ghcr.io
+
 0.006 2019-09-13 23:53:09+02:00
 
     - App::Spec 0.013

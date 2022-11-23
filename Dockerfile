@@ -13,6 +13,7 @@ RUN yum update -y && \
            git \
            yum-utils \
            gcc \
+           python3 \
            perl-devel \
            perl-CPAN \
            perl-App-cpanminus \

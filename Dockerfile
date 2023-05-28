@@ -1,7 +1,7 @@
 FROM centos:centos7
 
-ARG APPSPEC_REPO="https://github.com/perlpunk/app-spec-p5"
-ARG APPSPEC_VERSION=0.013
+ARG APPSPEC_REPO="https://github.com/alexiswl/app-spec-p5"
+ARG APPSPEC_VERSION=0.014-rc-2
 
 ARG APP_APPSPEC_REPO="https://github.com/perlpunk/app-appspec-p5"
 ARG APP_APPSPEC_VERSION=0.006

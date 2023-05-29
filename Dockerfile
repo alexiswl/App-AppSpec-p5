@@ -29,6 +29,7 @@ RUN yum update -y && \
       --branch "v${APPSPEC_VERSION}" \
       "${APPSPEC_REPO}" && \
     cd "$(basename "${APPSPEC_REPO}")" && \
+    sed --in-place "s%VERSION\ =\ '0.000'%VERSION\ =\ '${APPSPEC_VERSION}'%" lib/App/Spec.pm && \
     cpanm --quiet . \
    ) && \
    rm -rf "$(basename "${APPSPEC_REPO}")" && \

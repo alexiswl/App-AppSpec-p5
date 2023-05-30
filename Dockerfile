@@ -1,10 +1,10 @@
 FROM centos:centos7
 
-ARG APPSPEC_REPO="https://github.com/perlpunk/app-spec-p5"
-ARG APPSPEC_VERSION=0.013
+ARG APPSPEC_REPO="https://github.com/alexiswl/app-spec-p5"
+ARG APPSPEC_VERSION=0.014
 
 ARG APP_APPSPEC_REPO="https://github.com/perlpunk/app-appspec-p5"
-ARG APP_APPSPEC_VERSION=0.006
+ARG APP_APPSPEC_VERSION=0.007
 
 RUN yum update -y && \
     yum install -y -q  \
@@ -13,6 +13,7 @@ RUN yum update -y && \
            git \
            yum-utils \
            gcc \
+           python3 \
            perl-devel \
            perl-CPAN \
            perl-App-cpanminus \
@@ -22,13 +23,22 @@ RUN yum update -y && \
            perl-JSON && \
    cpanm List::Util --quiet && \
    cpanm File::ShareDir::Install --quiet && \
-   ( \
+   cpanm Module::Runtime --quiet && \
+   cpanm Moo --quiet && \
+   cpanm Moo::Role --quiet && \
+   cpanm Ref::Util --quiet && \
+   cpanm Text::Table --quiet && \
+   cpanm YAML::PP --quiet && \
+   cpanm Module::Runtime --quiet && \
+   ( \ 
     git clone \
       --depth 1 \
       --branch "v${APPSPEC_VERSION}" \
       "${APPSPEC_REPO}" && \
     cd "$(basename "${APPSPEC_REPO}")" && \
-    cpanm --quiet . \
+    sed "s%our \$VERSION = '0.000'%our \$VERSION = '$APPSPEC_VERSION'%" lib/App/Spec.pm && \ 
+    perl Makefile.PL && \
+    make install \
    ) && \
    rm -rf "$(basename "${APPSPEC_REPO}")" && \
    ( \

@@ -36,18 +36,21 @@ RUN yum update -y && \
       --branch "v${APPSPEC_VERSION}" \
       "${APPSPEC_REPO}" && \
     cd "$(basename "${APPSPEC_REPO}")" && \
-    sed "s%our \$VERSION = '0.000'%our \$VERSION = '$APPSPEC_VERSION'%" lib/App/Spec.pm && \ 
+    sed --in-place "s%our \$VERSION = '0.000'%our \$VERSION = '$APPSPEC_VERSION'%" lib/App/Spec.pm && \ 
     perl Makefile.PL && \
     make install \
    ) && \
    rm -rf "$(basename "${APPSPEC_REPO}")" && \
+   perl -MApp::Spec -e 'print $App::Spec::VERSION ."\n";' 1>&2 && \ 
    ( \
     git clone \
       --depth 1 \
       --branch "v${APP_APPSPEC_VERSION}" \
       "${APP_APPSPEC_REPO}" && \
     cd "$(basename "${APP_APPSPEC_REPO}")" && \
-    cpanm --quiet . \
+    sed --in-place "s%our \$VERSION = '0.000'%our \$VERSION = '$APP_APPSPEC_VERSION'%" lib/App/AppSpec.pm && \
+    perl Makefile.PL && \
+    make install \
    ) && \
    rm -rf "$(basename "${APP_APPSPEC_REPO}")"
 
